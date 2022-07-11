@@ -7,7 +7,46 @@ const firestore = firebase.firestore();
 
 const addfiledata = async (req, res, next) => {
     try {
-        const data = req.body;
+        const {
+            leadTitle,
+            contactName,
+            leadSource,
+            companyName,
+            product,
+            countryCode,
+            email,
+            assignToTeamName,
+            assignToUserEmail,
+            note,
+            address,
+            city,
+            state,
+            region,
+            postalCode,
+            countryName,
+            Age,
+            Salary
+        } = req.body;
+        const data = {
+            leadTitle,
+            contactName,
+            leadSource,
+            companyName,
+            product,
+            countryCode,
+            email,
+            assignToTeamName,
+            assignToUserEmail,
+            note,
+            address,
+            city,
+            state,
+            region,
+            postalCode,
+            countryName,
+            Age,
+            Salary
+        };
         await firestore.collection('filedatas').doc().set(data);
         res.send('Record saved successfuly');
     } catch (error) {
@@ -20,9 +59,9 @@ const getAllfiledata = async (req, res, next) => {
         const filedatas = await firestore.collection('filedatas');
         const data = await filedatas.get();
         const filedatasArray = [];
-        if(data.empty) {
+        if (data.empty) {
             res.status(404).send('No filedata record found');
-        }else {
+        } else {
             data.forEach(doc => {
                 const filedata = new FileData(
                     doc.id,
@@ -59,9 +98,9 @@ const getfiledata = async (req, res, next) => {
         const id = req.params.id;
         const filedata = await firestore.collection('filedatas').doc(id);
         const data = await filedata.get();
-        if(!data.exists) {
+        if (!data.exists) {
             res.status(404).send('filedata with the given ID not found');
-        }else {
+        } else {
             res.send(data.data());
         }
     } catch (error) {
@@ -73,9 +112,9 @@ const updatefiledata = async (req, res, next) => {
     try {
         const id = req.params.id;
         const data = req.body;
-        const filedata =  await firestore.collection('filedatas').doc(id);
+        const filedata = await firestore.collection('filedatas').doc(id);
         await filedata.update(data);
-        res.send('filedata record updated successfuly');        
+        res.send('filedata record updated successfuly');
     } catch (error) {
         res.status(400).send(error.message);
     }
