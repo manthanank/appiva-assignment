@@ -1,9 +1,6 @@
-'use strict';
-
 const firebase = require('../db');
 const FileData = require('../models/filedata');
 const firestore = firebase.firestore();
-
 
 const addfiledata = async (req, res, next) => {
     try {
